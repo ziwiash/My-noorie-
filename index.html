@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>For Noorie ❤️</title>
+<meta name="description" content="A love letter made only for Noorie.">
+
+<!-- ============================================================
+     GOOGLE FONTS — Cormorant Garamond (display) + Poppins (body)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================================
+   GLOBAL STYLES / DESIGN TOKENS
+   A luxury, cinematic palette: near-black stage, soft pink glow, gold trim.
+   ========================================================================= */
+:root{
+  --bg:            #070707;
+  --bg-secondary:  #111111;
+  --pink:          #FF7DB6;
+  --soft-pink:     #FFD8E8;
+  --gold:          #D4AF37;
+  --white:         #FAFAFA;
+
+  --pink-glow:     rgba(255, 125, 182, 0.35);
+  --gold-glow:     rgba(212, 175, 55, 0.30);
+  --glass-fill:    rgba(255, 255, 255, 0.045);
+  --glass-border:  rgba(255, 255, 255, 0.12);
+
+  --font-display:  'Cormorant Garamond', serif;
+  --font-body:     'Poppins', sans-serif;
+
+  --ease-lux:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft:     cubic-bezier(0.4, 0, 0.2, 1);
+
+  --vh: 1vh; /* corrected via JS for mobile browser chrome */
+}
+
+*, *::before, *::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html{
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body{
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: default;
+}
+
+/* Prevent horizontal scroll no matter what */
+html, body{
+  max-width: 100%;
+}
+
+::selection{
+  background: var(--pink);
+  color: var(--bg);
+}
+
+/* Slim luxury scrollbar (webkit) */
+::-webkit-scrollbar{ width: 6px; }
+::-webkit-scrollbar-track{ background: transparent; }
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(var(--pink), var(--gold));
+  border-radius: 10px;
+}
+
+a{ color: inherit; text-decoration: none; }
+button{ font-family: inherit; border: none; background: none; cursor: pointer; }
+img{ max-width: 100%; display: block; }
+
+/* Respect reduced motion preference across the whole experience */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================================
+   BACKGROUND — layered ambient glow, grain, and canvas-based particles
+   ========================================================================= */
+.ambient-bg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-bg::before,
+.ambient-bg::after{
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.ambient-bg::before{
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  background: radial-gradient(circle, var(--pink-glow), transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: driftOne 26s ease-in-out infinite alternate;
+}
+
+.ambient-bg::after{
+  width: 55vw;
+  height: 55vw;
+  max-width: 650px;
+  max-height: 650px;
+  background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation: driftTwo 32s ease-in-out infinite alternate;
+}
+
+@keyframes driftOne{
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(6vw, 8vh) scale(1.15); }
+  100% { transform: translate(-4vw, 4vh) scale(0.95); }
+}
+
+@keyframes driftTwo{
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-6vw, -6vh) scale(1.1); }
+  100% { transform: translate(4vw, -8vh) scale(0.9); }
+}
+
+/* subtle film-grain / noise overlay for a premium cinematic finish */
+.grain-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* canvas that hosts the floating-particle + heart-explosion systems */
+#fx-canvas{
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================================
+   GLASS CARD — the reusable glassmorphism surface used across screens
+   ========================================================================= */
+.glass-card{
+  position: relative;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 0 80px -20px var(--pink-glow);
+  overflow: hidden;
+}
+
+/* a thin animated sheen sweeping across glass surfaces = "glass reflection" */
+.glass-card::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255,255,255,0.10) 45%,
+    rgba(255,255,255,0.03) 55%,
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: sheenSweep 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sheenSweep{
+  0%   { left: -150%; }
+  35%  { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* =========================================================================
+   LUXURY BUTTON — shared button styling + ripple effect
+   ========================================================================= */
+.lux-btn{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 16px 42px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--soft-pink), var(--pink) 55%, var(--gold));
+  background-size: 200% 200%;
+  border-radius: 100px;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    0 10px 30px -8px var(--pink-glow),
+    0 2px 8px rgba(0,0,0,0.4);
+  transition: transform 0.5s var(--ease-lux), box-shadow 0.5s var(--ease-lux), background-position 0.8s ease;
+  will-change: transform;
+}
+
+.lux-btn:hover{
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 16px 40px -8px var(--pink-glow),
+    0 4px 14px rgba(0,0,0,0.5);
+  background-position: 100% 50%;
+}
+
+.lux-btn:active{ transform: translateY(-1px) scale(0.98); }
+
+.lux-btn .ripple{
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  transform: scale(0);
+  animation: rippleAnim 0.65s var(--ease-soft) forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim{
+  to{ transform: scale(3.2); opacity: 0; }
+}
+
+.lux-btn-outline{
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--white);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+.lux-btn-outline:hover{
+  border-color: var(--pink);
+  box-shadow: 0 0 30px -8px var(--pink-glow);
+}
+
+/* =========================================================================
+   SECTION / SCREEN SYSTEM
+   Each major experience is a full-viewport "screen" toggled via classes.
+   ========================================================================= */
+.screen{
+  /* Every screen is fixed to the viewport and hidden via `display:none` by
+     default. This is the key fix: previously screens were only hidden with
+     opacity/visibility, which still left them occupying normal document
+     flow — so an "active" screen further down the page could render far
+     below the visible viewport with no way to scroll up to it. Using
+     display:none/flex means only the active screen ever takes up space,
+     and it always fills the current viewport exactly. */
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s var(--ease-lux);
+}
+
+.screen.active{
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* generic fade-to-black transition veil used between big moments */
+#fade-veil{
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s var(--ease-lux);
+}
+#fade-veil.show{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================================================================
+   INTRO SCREEN
+   ========================================================================= */
+#screen-intro{
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+}
+
+.intro-card{
+  width: 100%;
+  max-width: 460px;
+  padding: 56px 34px 44px;
+  text-align: center;
+  animation: introFloat 6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes introFloat{
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-14px); }
+}
+
+.intro-heart{
+  font-size: 34px;
+  margin-bottom: 18px;
+  display: inline-block;
+  animation: heartbeat 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px var(--pink-glow));
+}
+
+@keyframes heartbeat{
+  0%, 100% { transform: scale(1); }
+  15%      { transform: scale(1.18); }
+  30%      { transform: scale(1); }
+  45%      { transform: scale(1.12); }
+  60%      { transform: scale(1); }
+}
+
+.intro-title{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 8vw, 48px);
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, var(--white) 20%, var(--soft-pink) 55%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 18px;
+  text-shadow: 0 0 60px var(--pink-glow);
+}
+
+.intro-text{
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: rgba(250, 250, 250, 0.78);
+  max-width: 340px;
+  margin: 0 auto 34px;
+  letter-spacing: 0.01em;
+}
+
+.intro-hint{
+  margin-top: 22px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.35);
+  font-weight: 300;
+}
+
+/* =========================================================================
+   LOVE CREDITS SCREEN — 100 auto-generated lines scrolling like film credits
+   ========================================================================= */
+#screen-credits{
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.credits-viewport{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.credits-track{
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  max-width: 640px;
+  padding: 0 24px;
+  text-align: center;
+  will-change: transform;
+}
+
+.credits-track.rolling{
+  animation: creditsRoll linear forwards;
+}
+
+@keyframes creditsRoll{
+  from { transform: translateY(0); }
+  to   { transform: translateY(var(--roll-distance)); }
+}
+
+.credit-line{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 5vw, 30px);
+  color: var(--soft-pink);
+  padding: 16px 0;
+  opacity: 0.92;
+  text-shadow: 0 0 30px var(--pink-glow);
+  letter-spacing: 0.01em;
+}
+
+.credit-line:nth-child(3n){ color: var(--white); }
+.credit-line:nth-child(5n){ color: var(--gold); }
+
+.credits-skip{
+  position: fixed;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.4);
+  border: 1px solid var(--glass-border);
+  padding: 10px 22px;
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.credits-skip:hover{
+  color: var(--soft-pink);
+  border-color: var(--pink);
+}
+
+/* =========================================================================
+   MAIN PAGE
+   ========================================================================= */
+#screen-main{
+  flex-direction: column;
+  padding: 100px 24px 90px;
+  text-align: center;
+  gap: 0;
+}
+
+.main-inner{
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.eyebrow{
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 26px;
+  opacity: 0.85;
+  animation: fadeUp 1s var(--ease-lux) both;
+}
+
+.main-heading{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(42px, 11vw, 84px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, var(--white) 10%, var(--soft-pink) 45%, var(--pink) 70%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 26px;
+  animation: fadeUp 1.1s 0.15s var(--ease-lux) both;
+}
+
+.main-heading .accent-line{
+  display: block;
+}
+
+.main-subheading{
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(14px, 3.6vw, 17px);
+  line-height: 1.9;
+  color: rgba(250,250,250,0.68);
+  max-width: 420px;
+  margin-bottom: 48px;
+  letter-spacing: 0.01em;
+  animation: fadeUp 1.1s 0.3s var(--ease-lux) both;
+}
+
+@keyframes fadeUp{
+  from{ opacity: 0; transform: translateY(28px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+.main-cta-wrap{
+  animation: fadeUp 1.1s 0.45s var(--ease-lux) both;
+}
+
+.divider-orn{
+  width: 60px;
+  height: 1px;
+  margin: 42px auto;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+  animation: fadeUp 1.1s 0.5s var(--ease-lux) both;
+}
+
+.footer-note{
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(250,250,250,0.28);
+  animation: fadeUp 1.1s 0.6s var(--ease-lux) both;
+}
+
+/* =========================================================================
+   ENVELOPE / LETTER SCREEN
+   ========================================================================= */
+#screen-letter{
+  flex-direction: column;
+  padding: 60px 20px 60px;
+}
+
+.envelope-stage{
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 3 / 2;
+  margin: 0 auto;
+  perspective: 1400px;
+  flex-shrink: 0;
+}
+
+.envelope-stage.hidden-stage{
+  display: none;
+}
+
+.envelope-body{
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--bg-secondary), #1a1414);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 60px -10px var(--pink-glow);
+  overflow: visible;
+}
+
+/* the two side "V" creases of the envelope, purely CSS */
+.envelope-body::before,
+.envelope-body::after{
+  content:'';
+  position:absolute;
+  top:0;
+  width:0;
+  height:0;
+  border-style: solid;
+}
+.envelope-body::before{
+  left:0;
+  border-width: 0 0 55% 50%;
+  border-color: transparent transparent rgba(255,255,255,0.035) transparent;
+}
+.envelope-body::after{
+  right:0;
+  border-width: 0 50% 55% 0;
+  border-color: transparent transparent rgba(255,255,255,0.035) transparent;
+}
+
+.envelope-flap{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background: linear-gradient(160deg, #201818, var(--bg-secondary));
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  clip-path: polygon(0 0, 50% 90%, 100% 0);
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  transition: transform 1.3s var(--ease-lux);
+  z-index: 6;
+}
+
+.envelope-flap.open{
+  transform: rotateX(178deg);
+}
+
+.envelope-seal{
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--soft-pink), var(--pink) 60%, #b34c7d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 30px var(--pink-glow);
+  z-index: 8;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.envelope-seal.hide{
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+.envelope-paper{
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 6%;
+  height: 78%;
+  background: linear-gradient(180deg, #fffaf5, #fdf3ee);
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  z-index: 5;
+  transform: translateY(6%);
+  transition: transform 1.4s 0.3s var(--ease-lux);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.envelope-paper.rise{
+  transform: translateY(-58%);
+}
+
+.envelope-paper-label{
+  font-family: var(--font-display);
+  font-style: italic;
+  color: #7a5560;
+  font-size: 14px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.envelope-tap-hint{
+  text-align: center;
+  margin-top: 34px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.4);
+  animation: pulseHint 2s ease-in-out infinite;
+}
+@keyframes pulseHint{
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.85; }
+}
+
+/* the actual letter reading panel, glass card with the typewriter text */
+.letter-panel{
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 46px 26px 40px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s var(--ease-lux), transform 1s var(--ease-lux);
+  pointer-events: none;
+  flex-shrink: 0; /* never let the flex layout compress this below its real content height */
+}
+.letter-panel.visible{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.letter-heading{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(24px, 6vw, 32px);
+  text-align: center;
+  color: var(--soft-pink);
+  margin-bottom: 30px;
+  text-shadow: 0 0 30px var(--pink-glow);
+}
+
+.letter-body{
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(16px, 4vw, 19px);
+  line-height: 2.05;
+  color: var(--white);
+  white-space: pre-wrap;
+  min-height: 40px;
+}
+
+.letter-cursor{
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--pink);
+  vertical-align: -0.15em;
+  margin-left: 2px;
+  animation: cursorBlink 0.9s steps(1) infinite;
+}
+@keyframes cursorBlink{
+  0%, 49%  { opacity: 1; }
+  50%, 100%{ opacity: 0; }
+}
+
+.letter-continue{
+  display: block;
+  margin: 46px auto 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+.letter-continue.show{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================================================================
+   ENDING SCREEN — night sky, stars, "Forever."
+   ========================================================================= */
+#screen-ending{
+  flex-direction: column;
+  background: radial-gradient(ellipse at 50% 20%, #0d0d16 0%, #050508 70%);
+  padding: 40px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.stars-layer{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star{
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 50%;
+  animation: twinkle 3.4s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes twinkle{
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.5); }
+}
+
+.ending-content{
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.ending-forever{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(56px, 15vw, 120px);
+  background: linear-gradient(135deg, var(--soft-pink), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 80px var(--pink-glow);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.6s var(--ease-lux), transform 1.6s var(--ease-lux);
+}
+.ending-forever.reveal{ opacity: 1; transform: translateY(0); }
+
+.ending-date{
+  margin-top: 22px;
+  font-size: 15px;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 1.4s 0.5s ease;
+}
+.ending-date.reveal{ opacity: 0.9; }
+
+.ending-line{
+  margin-top: 40px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 5vw, 28px);
+  line-height: 1.6;
+  color: var(--white);
+  opacity: 0;
+  transition: opacity 1.4s 1s ease;
+}
+.ending-line.reveal{ opacity: 1; }
+
+.ending-infinity{
+  margin-top: 50px;
+  font-size: clamp(46px, 12vw, 72px);
+  opacity: 0;
+  filter: drop-shadow(0 0 30px var(--pink-glow));
+  transition: opacity 1.6s 1.6s ease, transform 1.6s 1.6s var(--ease-lux);
+  transform: scale(0.6) rotate(-20deg);
+  animation: infinityFloat 5s ease-in-out infinite;
+}
+.ending-infinity.reveal{
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+@keyframes infinityFloat{
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-10px) scale(1.05); }
+}
+
+.ending-replay{
+  margin-top: 60px;
+  opacity: 0;
+  transition: opacity 1.2s 2.4s ease;
+}
+.ending-replay.reveal{ opacity: 1; }
+
+/* =========================================================================
+   FLOATING HEARTS (DOM-based, layered above canvas for main/letter screens)
+   ========================================================================= */
+.dom-heart{
+  position: fixed;
+  bottom: -40px;
+  z-index: 3;
+  pointer-events: none;
+  color: var(--pink);
+  opacity: 0.75;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 6px var(--pink-glow));
+}
+
+/* =========================================================================
+   RESPONSIVE ADJUSTMENTS
+   Mobile-first base styles are above; refine for larger viewports here.
+   ========================================================================= */
+
+/* Small phones */
+@media (max-width: 360px){
+  .intro-card{ padding: 44px 22px 34px; }
+  .intro-title{ font-size: 28px; }
+  .lux-btn{ padding: 14px 32px; font-size: 14px; }
+}
+
+/* Tablets */
+@media (min-width: 768px){
+  .intro-card{ max-width: 500px; padding: 68px 60px 54px; }
+  .main-heading{ font-size: clamp(56px, 8vw, 90px); }
+  .letter-panel{ padding: 64px 60px 54px; }
+  .envelope-stage{ max-width: 420px; }
+}
+
+/* Desktop */
+@media (min-width: 1100px){
+  .main-heading{ font-size: 92px; }
+  .intro-text{ font-size: 16.5px; }
+  .letter-body{ font-size: 20px; line-height: 2.15; }
+  #screen-main{ padding-top: 130px; }
+}
+
+/* Landscape phones — keep intro card from overflowing short viewports */
+@media (max-height: 480px) and (orientation: landscape){
+  .intro-card{ padding: 26px 30px; }
+  .intro-heart{ margin-bottom: 8px; }
+  .intro-text{ margin-bottom: 18px; }
+  #screen-main{ padding-top: 60px; padding-bottom: 50px; }
+}
+
+/* Utility */
+.hidden{ display: none !important; }
+.no-scroll{ overflow: hidden; height: 100%; }
+
+/* focus visibility for accessibility / keyboard nav, kept elegant */
+button:focus-visible, .credits-skip:focus-visible{
+  outline: 1px solid var(--gold);
+  outline-offset: 4px;
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================================
+     HTML STRUCTURE
+     The page is a single scroll-free "app shell": a persistent ambient
+     background + fx canvas, with discrete full-screen experiences stacked
+     on top of one another and swapped via JavaScript state changes.
+     ========================================================================= -->
+
+<!-- BACKGROUND LAYERS -->
+<div class="ambient-bg" aria-hidden="true"></div>
+<div class="grain-overlay" aria-hidden="true"></div>
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+<!-- fade-to-black transition veil, reused between every major scene change -->
+<div id="fade-veil" aria-hidden="true"></div>
+
+<!-- ============================= INTRO SCREEN ============================= -->
+<section id="screen-intro" class="screen active" aria-label="Welcome">
+  <div class="intro-card glass-card">
+    <span class="intro-heart" aria-hidden="true">❤️</span>
+    <h1 class="intro-title">For Noorie ❤️</h1>
+    <p class="intro-text">This little corner of the internet was made only for you.</p>
+    <button id="btn-open-intro" class="lux-btn" type="button">Open 💗</button>
+    <p class="intro-hint">a private moment, just for you</p>
+  </div>
+</section>
+
+<!-- ============================ LOVE CREDITS =============================== -->
+<section id="screen-credits" class="screen" aria-label="Love credits">
+  <div class="credits-viewport">
+    <div id="credits-track" class="credits-track"><!-- 100 lines injected by JS --></div>
+  </div>
+  <button id="btn-skip-credits" class="credits-skip" type="button">Skip ▸</button>
+</section>
+
+<!-- =============================== MAIN PAGE =============================== -->
+<section id="screen-main" class="screen" aria-label="Main">
+  <div class="main-inner">
+    <p class="eyebrow">Four months, and counting</p>
+    <h2 class="main-heading">
+      <span class="accent-line">Happy 4 Months,</span>
+      <span class="accent-line">Noorie ❤️</span>
+    </h2>
+    <p class="main-subheading">Every word on this website was written with love.</p>
+    <div class="main-cta-wrap">
+      <button id="btn-open-letter" class="lux-btn" type="button">Open My Letter 💌</button>
+    </div>
+    <div class="divider-orn" aria-hidden="true"></div>
+    <p class="footer-note">made with love, for you and only you</p>
+  </div>
+</section>
+
+<!-- ============================ ENVELOPE / LETTER ============================ -->
+<section id="screen-letter" class="screen" aria-label="Your letter">
+
+  <!-- envelope opening sequence -->
+  <div id="envelope-stage" class="envelope-stage">
+    <div class="envelope-body">
+      <div id="envelope-paper" class="envelope-paper">
+        <p class="envelope-paper-label">to Noorie, with love</p>
+      </div>
+      <div id="envelope-flap" class="envelope-flap">
+        <div id="envelope-seal" class="envelope-seal" aria-hidden="true">❤️</div>
+      </div>
+    </div>
+  </div>
+  <p id="envelope-hint" class="envelope-tap-hint">tap the envelope to open it</p>
+
+  <!-- letter reading panel (typewriter target) -->
+  <div id="letter-panel" class="letter-panel glass-card">
+    <h3 class="letter-heading">My Letter to You</h3>
+    <p id="letter-body" class="letter-body"></p>
+    <button id="btn-letter-continue" class="lux-btn letter-continue" type="button">Continue ♾️</button>
+  </div>
+</section>
+
+<!-- ================================ ENDING ================================= -->
+<section id="screen-ending" class="screen" aria-label="Forever">
+  <div class="stars-layer" id="stars-layer" aria-hidden="true"></div>
+  <div class="ending-content">
+    <h2 id="ending-forever" class="ending-forever">Forever.</h2>
+    <p id="ending-date" class="ending-date">07 / 03 / 2026</p>
+    <p id="ending-line" class="ending-line">I love you,<br>Noorie.</p>
+    <div id="ending-infinity" class="ending-infinity" aria-hidden="true">♾️</div>
+    <button id="btn-replay" class="lux-btn lux-btn-outline ending-replay" type="button">Relive it again</button>
+  </div>
+</section>
+
+<script>
+/* =========================================================================
+   JAVASCRIPT
+   Organized into small, focused modules:
+     1. Utilities & viewport fix
+     2. Screen / state manager
+     3. Ripple + generic UI wiring
+     4. Ambient particle + heart-explosion canvas engine
+     5. Floating DOM hearts
+     6. Intro -> Credits flow (100 auto-generated lines)
+     7. Main page -> Letter flow (envelope + typewriter)
+     8. Ending sequence (stars, reveal, heart explosion, replay)
+   ========================================================================= */
+(function(){
+  'use strict';
+
+  /* -----------------------------------------------------------------------
+     1. UTILITIES
+     ----------------------------------------------------------------------- */
+
+  // Fix the classic mobile-browser "100vh includes the address bar" bug by
+  // computing a real viewport unit and exposing it as a CSS custom property.
+  function setViewportUnit(){
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  }
+  setViewportUnit();
+  window.addEventListener('resize', debounce(setViewportUnit, 150));
+  window.addEventListener('orientationchange', setViewportUnit);
+
+  // Simple debounce helper, used for resize-triggered recalculations.
+  function debounce(fn, wait){
+    let t;
+    return function(...args){
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(this, args), wait);
+    };
+  }
+
+  // Clamp helper used by several animation routines below.
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+  // Random float in [min, max)
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* -----------------------------------------------------------------------
+     2. SCREEN / STATE MANAGER
+     Handles switching between the five full-viewport experiences and
+     coordinates the shared fade-to-black veil between them.
+     ----------------------------------------------------------------------- */
+  const screens = {
+    intro:   document.getElementById('screen-intro'),
+    credits: document.getElementById('screen-credits'),
+    main:    document.getElementById('screen-main'),
+    letter:  document.getElementById('screen-letter'),
+    ending:  document.getElementById('screen-ending')
+  };
+  const fadeVeil = document.getElementById('fade-veil');
+
+  /**
+   * Cross-fades from the current screen to `name` through a brief
+   * fade-to-black, matching the "Fade to black" requirement between scenes.
+   */
+  function goToScreen(name, { veilTime = 650 } = {}){
+    fadeVeil.classList.add('show');
+    window.setTimeout(() => {
+      Object.values(screens).forEach(s => s.classList.remove('active'));
+      screens[name].classList.add('active');
+      screens[name].scrollTop = 0; // always start each screen scrolled to the top
+      // let the newly active screen paint once before lifting the veil
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          fadeVeil.classList.remove('show');
+        });
+      });
+    }, veilTime);
+  }
+
+  /* -----------------------------------------------------------------------
+     3. RIPPLE + GENERIC UI WIRING
+     ----------------------------------------------------------------------- */
+  function attachRipple(btn){
+    btn.addEventListener('click', function(e){
+      const rect = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+      btn.appendChild(ripple);
+      window.setTimeout(() => ripple.remove(), 700);
+    });
+  }
+  document.querySelectorAll('.lux-btn').forEach(attachRipple);
+
+  /* -----------------------------------------------------------------------
+     4. AMBIENT PARTICLE + HEART-EXPLOSION CANVAS ENGINE
+     A single canvas + requestAnimationFrame loop drives:
+       - gently floating glow particles (always running, low cost)
+       - occasional sparkle bursts
+       - the big finale heart explosion (triggered once, on demand)
+     ----------------------------------------------------------------------- */
+  const canvas = document.getElementById('fx-canvas');
+  const ctx = canvas.getContext('2d');
+  let cw = 0, ch = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resizeCanvas(){
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+    canvas.width = cw * dpr;
+    canvas.height = ch * dpr;
+    canvas.style.width = cw + 'px';
+    canvas.style.height = ch + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', debounce(resizeCanvas, 150));
+
+  // --- Ambient floating particles -----------------------------------------
+  const AMBIENT_COUNT = prefersReducedMotion ? 0 : (window.innerWidth < 600 ? 26 : 46);
+  const ambientParticles = [];
+
+  function makeAmbientParticle(){
+    const isGold = Math.random() < 0.28;
+    return {
+      x: rand(0, cw),
+      y: rand(0, ch),
+      r: rand(1, 3.2),
+      vy: rand(0.06, 0.22) * -1, // drift upward slowly
+      vx: rand(-0.06, 0.06),
+      alpha: rand(0.15, 0.6),
+      pulse: rand(0, Math.PI * 2),
+      pulseSpeed: rand(0.01, 0.025),
+      color: isGold ? '212,175,55' : '255,125,182'
+    };
+  }
+  for (let i = 0; i < AMBIENT_COUNT; i++) ambientParticles.push(makeAmbientParticle());
+
+  function drawAmbientParticles(){
+    for (const p of ambientParticles){
+      p.pulse += p.pulseSpeed;
+      const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+      p.y += p.vy;
+      p.x += p.vx;
+      if (p.y < -10){ p.y = ch + 10; p.x = rand(0, cw); }
+      if (p.x < -10) p.x = cw + 10;
+      if (p.x > cw + 10) p.x = -10;
+
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+      grad.addColorStop(0, `rgba(${p.color},${a})`);
+      grad.addColorStop(1, `rgba(${p.color},0)`);
+      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(${p.color},${clamp(a * 1.4, 0, 1)})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // --- Occasional sparkles -------------------------------------------------
+  const sparkles = [];
+  function spawnSparkle(){
+    if (prefersReducedMotion) return;
+    sparkles.push({
+      x: rand(0, cw),
+      y: rand(0, ch * 0.85),
+      life: 0,
+      maxLife: rand(40, 70),
+      size: rand(2, 4)
+    });
+  }
+  let sparkleTimer = 0;
+  function updateSparkles(dt){
+    sparkleTimer += dt;
+    if (sparkleTimer > rand(900, 1800)){
+      sparkleTimer = 0;
+      spawnSparkle();
+    }
+    for (let i = sparkles.length - 1; i >= 0; i--){
+      const s = sparkles[i];
+      s.life++;
+      const t = s.life / s.maxLife;
+      if (t >= 1){ sparkles.splice(i, 1); continue; }
+      const a = Math.sin(t * Math.PI); // fade in then out
+      ctx.save();
+      ctx.translate(s.x, s.y);
+      ctx.globalAlpha = a;
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.lineWidth = 1;
+      const len = s.size * 3;
+      ctx.beginPath();
+      ctx.moveTo(-len, 0); ctx.lineTo(len, 0);
+      ctx.moveTo(0, -len); ctx.lineTo(0, len);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  // --- Heart explosion (finale) --------------------------------------------
+  // Draws a mathematical heart shape via parametric equation, entirely in
+  // canvas — no images, no SVG libraries, as required.
+  function heartPoint(t, scale){
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+    return { x: x * scale, y: -y * scale };
+  }
+
+  let explosionParticles = [];
+  function triggerHeartExplosion(originX, originY){
+    const count = prefersReducedMotion ? 40 : 130;
+    for (let i = 0; i < count; i++){
+      const angle = rand(0, Math.PI * 2);
+      const speed = rand(1.5, 6.5);
+      const isPink = Math.random() < 0.6;
+      explosionParticles.push({
+        x: originX,
+        y: originY,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - rand(0, 1.5),
+        gravity: 0.045,
+        drag: 0.985,
+        size: rand(0.35, 0.95),
+        rotation: rand(0, Math.PI * 2),
+        vr: rand(-0.05, 0.05),
+        life: 0,
+        maxLife: rand(90, 170),
+        color: isPink
+          ? `rgba(255,125,182,`
+          : `rgba(212,175,55,`
+      });
+    }
+  }
+
+  function drawHeartShape(size, colorPrefix, alpha){
+    ctx.beginPath();
+    for (let t = 0; t <= Math.PI * 2 + 0.1; t += 0.2){
+      const p = heartPoint(t, size);
+      if (t === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = colorPrefix + alpha + ')';
+    ctx.fill();
+  }
+
+  function updateExplosion(){
+    for (let i = explosionParticles.length - 1; i >= 0; i--){
+      const p = explosionParticles[i];
+      p.life++;
+      if (p.life >= p.maxLife){ explosionParticles.splice(i, 1); continue; }
+      p.vx *= p.drag;
+      p.vy = p.vy * p.drag + p.gravity;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.vr;
+      const t = p.life / p.maxLife;
+      const alpha = (1 - t) * 0.9;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      drawHeartShape(p.size, p.color, alpha.toFixed(3));
+      ctx.restore();
+    }
+  }
+
+  // --- Master render loop ---------------------------------------------------
+  let lastTime = performance.now();
+  function renderLoop(now){
+    const dt = now - lastTime;
+    lastTime = now;
+    ctx.clearRect(0, 0, cw, ch);
+    drawAmbientParticles();
+    updateSparkles(dt);
+    updateExplosion();
+    requestAnimationFrame(renderLoop);
+  }
+  requestAnimationFrame(renderLoop);
+
+  /* -----------------------------------------------------------------------
+     5. FLOATING DOM HEARTS
+     Lightweight emoji hearts that rise from the bottom of the viewport on
+     the main + letter screens, for an extra layer of ambient romance.
+     ----------------------------------------------------------------------- */
+  let domHeartTimer = null;
+  function spawnDomHeart(){
+    if (prefersReducedMotion) return;
+    const heart = document.createElement('div');
+    heart.className = 'dom-heart';
+    heart.textContent = Math.random() < 0.5 ? '❤️' : (Math.random() < 0.5 ? '💗' : '💖');
+    const startX = rand(4, 96);
+    const size = rand(14, 26);
+    const duration = rand(7, 13);
+    const drift = rand(-60, 60);
+    heart.style.left = startX + 'vw';
+    heart.style.fontSize = size + 'px';
+    document.body.appendChild(heart);
+
+    const anim = heart.animate([
+      { transform: 'translate(0, 0) rotate(0deg)', opacity: 0 },
+      { transform: `translate(0, -20vh) rotate(${drift/4}deg)`, opacity: 0.85, offset: 0.15 },
+      { transform: `translate(${drift}px, -85vh) rotate(${drift}deg)`, opacity: 0.7, offset: 0.85 },
+      { transform: `translate(${drift * 1.1}px, -105vh) rotate(${drift * 1.2}deg)`, opacity: 0 }
+    ], { duration: duration * 1000, easing: 'ease-in-out' });
+
+    anim.onfinish = () => heart.remove();
+  }
+
+  function startDomHearts(){
+    if (domHeartTimer || prefersReducedMotion) return;
+    domHeartTimer = window.setInterval(spawnDomHeart, 1400);
+  }
+  function stopDomHearts(){
+    window.clearInterval(domHeartTimer);
+    domHeartTimer = null;
+  }
+
+  /* -----------------------------------------------------------------------
+     6. INTRO -> CREDITS FLOW
+     Generates the "I LOVE YOU NOORIE 💗" line exactly 100 times via
+     JavaScript (never hand-typed), then rolls it upward like film credits.
+     ----------------------------------------------------------------------- */
+  const creditsTrack = document.getElementById('credits-track');
+  const LOVE_LINE = 'I LOVE YOU NOORIE 💗';
+  const LOVE_LINE_COUNT = 100;
+
+  function buildCredits(){
+    const frag = document.createDocumentFragment();
+
+    const header = document.createElement('p');
+    header.className = 'credit-line';
+    header.style.fontSize = 'clamp(14px, 3.5vw, 18px)';
+    header.style.opacity = '0.5';
+    header.style.letterSpacing = '0.25em';
+    header.style.textTransform = 'uppercase';
+    header.textContent = 'a message, repeated';
+    frag.appendChild(header);
+
+    // Programmatically generate the line exactly 100 times.
+    for (let i = 0; i < LOVE_LINE_COUNT; i++){
+      const line = document.createElement('p');
+      line.className = 'credit-line';
+      line.textContent = LOVE_LINE;
+      frag.appendChild(line);
+    }
+
+    const footer = document.createElement('p');
+    footer.className = 'credit-line';
+    footer.style.fontSize = 'clamp(14px, 3.5vw, 18px)';
+    footer.style.opacity = '0.5';
+    footer.textContent = '— now and always —';
+    frag.appendChild(footer);
+
+    creditsTrack.appendChild(frag);
+  }
+  buildCredits();
+
+  let creditsFinished = false;
+  function playCredits(){
+    goToScreen('credits');
+    window.setTimeout(() => {
+      // measure track height so the roll distance always covers the full list,
+      // regardless of viewport size or font-scaling.
+      const trackHeight = creditsTrack.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      const distance = -(trackHeight + viewportHeight);
+      creditsTrack.style.setProperty('--roll-distance', distance + 'px');
+
+      // duration scales with content but stays within a pleasant range
+      const duration = prefersReducedMotion ? 1 : clamp(trackHeight / 55, 14, 26);
+      creditsTrack.style.animationDuration = duration + 's';
+      creditsTrack.classList.add('rolling');
+
+      window.setTimeout(finishCredits, duration * 1000);
+    }, 700);
+  }
+
+  function finishCredits(){
+    if (creditsFinished) return;
+    creditsFinished = true;
+    goToScreen('main');
+    startDomHearts();
+  }
+
+  document.getElementById('btn-open-intro').addEventListener('click', () => {
+    playCredits();
+  });
+
+  document.getElementById('btn-skip-credits').addEventListener('click', () => {
+    finishCredits();
+  });
+
+  /* -----------------------------------------------------------------------
+     7. MAIN PAGE -> LETTER FLOW
+     Envelope opening sequence followed by a character-by-character
+     typewriter reveal of the full letter text.
+     ----------------------------------------------------------------------- */
+  const btnOpenLetter   = document.getElementById('btn-open-letter');
+  const envelopeStage   = document.getElementById('envelope-stage');
+  const envelopeFlap    = document.getElementById('envelope-flap');
+  const envelopeSeal    = document.getElementById('envelope-seal');
+  const envelopePaper   = document.getElementById('envelope-paper');
+  const envelopeHint    = document.getElementById('envelope-hint');
+  const letterPanel     = document.getElementById('letter-panel');
+  const letterBody      = document.getElementById('letter-body');
+  const btnLetterContinue = document.getElementById('btn-letter-continue');
+
+  // The complete letter, exactly as provided — nothing shortened, nothing
+  // summarized, every emoji preserved. Blank lines become paragraph breaks.
+  const LETTER_TEXT = `Happy 4 months, Noorie cutie fruity patotie aluu ki poorie ❤️💖
+
+You don't understand how much you actually mean to me and I care about you a lot more than myself. 🩷 I would do anything for you. 💞 I just want to make you smile. 💗
+
+You are amazing, beautiful, funny, you have a great personality, and the world's most beautiful smile. 💘 Every time I see you or even get a simple text from you, my whole day brightens up. 💝 It's so amazing how you can simply say "hey" and instantly put a smile on my face. 🥹💕
+
+I love when you laugh, and I just love being with you. 🫶🏻🐰 I'm so happy with you. I can't believe it's already been 4 months that you and I have been together. ❤️ You've brought so much happiness into my life and I can't possibly thank you enough. 💌
+
+I can't wait until we're able to live together and I'll be able to show you every single day how much I appreciate you, how important you are to me, and how much you mean to me. 💖 No matter what happens, you've made an everlasting impression on me, and I'm beyond thankful that I met you. 💝
+
+There are so many things to thank you for that I don't even know where to begin. ❤️ Thank you for always being there for me, for treating me right, for being the person I can tell absolutely anything to, for being my weird best friend, and most of all... my beautiful, caring wife. 💗🫶🏻
+
+When I'm with you, I'm happy. 💓 When we hug, it feels like I never want to let go. 🫂💕 When you make me smile, it brings the sunshine out in me. ☀️💖 When our eyes meet, it's a feeling I've never experienced before. ❤️
+
+I know I'm not perfect. I know I have flaws. I know I can be annoying, quiet, mean, and sometimes even a little stupid. 🥹 But I also know that I care about you with all my heart. 💞 I might not always say the right things, and I might not always seem stunning or gorgeous to you, but I promise I'll always try my best to make you happy, make you smile, make you laugh, and make you feel loved and wanted. 💝
+
+If I had a penny for every time I thought about you, I'd only have one... because you never leave my mind. 💘 You're my first thought when I wake up and my last thought before I fall asleep. ❤️
+
+You've made me smile and laugh so many times these past months. 💕 You've always been there for me. Thank you for simply being you. 💗 You're so amazing, and I'm so lucky to call you my babe. 🫶🏻🐰
+
+I love you so much. ❤️ I'm so glad you and I are together.
+
+07/03/2026 — Forever and always. 💞♾️
+
+I love you, babe. 💖
+
+You're mine, and I'm yours. ❤️ It's as simple as that. Nothing from my end is ever going to change that fact. 💓
+
+I know you sometimes say you don't think you're good enough for me, that I'm too good, or that you think I could find someone better... but none of that matters. 💗 What matters is you and me, because we're best together. 🫶🏻💕
+
+I choose you. ❤️ It was never a difficult decision. The moment I saw you, it felt like my destiny became tied to yours. 💝 Some people may never understand it, and some may not even like it—but none of that matters because I choose you every single day. 💘
+
+My heart chose yours long before our bodies were ever born. 💞 I truly feel like we've loved each other in lifetimes before this one. And whatever we don't get right this time, we'll try again. 🩷 So my love, I'm comforted knowing that my love for you is eternal, and that I'll find you again in every lifetime. ❤️
+
+I want you, and everything that comes with you. 💖 I want every beautiful part of you and every scary, imperfect side too. 💕
+
+If there were one word to describe what I feel for you, it would be incredible. 💝 Because it truly is incredible how much I love you, how much I care about you, the way I look at you, the way I talk about you, and how badly I want to spend forever with you. 💗
+
+I want to hold your hand. 🫶🏻 I want to kiss you on the cheek. 💋 I want to hug you tightly and never let go for a while. 💞 I want to love you in a way no one ever has and no one ever will. ❤️
+
+You are mine forever and ever, babe. 💖♥️ You are my infinite. ♾️💝💟
+
+Happy 4 months, my love. 🐰❤️ I love you more than words could ever explain. Forever and always. 💌💞`;
+
+  btnOpenLetter.addEventListener('click', () => {
+    goToScreen('letter');
+    // reset envelope state every time the letter screen is (re)entered
+    envelopeStage.classList.remove('hidden-stage');
+    envelopeFlap.classList.remove('open');
+    envelopeSeal.classList.remove('hide');
+    envelopePaper.classList.remove('rise');
+    envelopeHint.style.opacity = '1';
+    letterPanel.classList.remove('visible');
+    letterBody.textContent = '';
+    btnLetterContinue.classList.remove('show');
+  });
+
+  let envelopeOpened = false;
+  envelopeStage.addEventListener('click', () => {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    envelopeHint.style.opacity = '0';
+
+    envelopeSeal.classList.add('hide');
+    window.setTimeout(() => {
+      envelopeFlap.classList.add('open');
+    }, 200);
+
+    window.setTimeout(() => {
+      envelopePaper.classList.add('rise');
+    }, 900);
+
+    window.setTimeout(() => {
+      envelopeStage.classList.add('hidden-stage');
+      letterPanel.classList.add('visible');
+      startTypewriter();
+    }, 2100);
+  });
+
+  // --- Typewriter engine ----------------------------------------------------
+  function startTypewriter(){
+    letterBody.textContent = '';
+    const cursor = document.createElement('span');
+    cursor.className = 'letter-cursor';
+    letterBody.appendChild(cursor);
+
+    let i = 0;
+    const speed = prefersReducedMotion ? 0 : 16; // ms per character
+
+    function typeNext(){
+      if (i >= LETTER_TEXT.length){
+        cursor.remove();
+        btnLetterContinue.classList.add('show');
+        return;
+      }
+      const char = LETTER_TEXT[i];
+      cursor.insertAdjacentText('beforebegin', char);
+      i++;
+
+      // slightly longer pause after sentence-ending punctuation for a more
+      // natural, cinematic reading rhythm
+      let delay = speed;
+      if ('.!?'.includes(char)) delay = speed * 14;
+      else if (char === ',') delay = speed * 6;
+      else if (char === '\n') delay = speed * 10;
+
+      window.setTimeout(typeNext, prefersReducedMotion ? 0 : delay);
+    }
+
+    if (prefersReducedMotion){
+      letterBody.textContent = LETTER_TEXT;
+      btnLetterContinue.classList.add('show');
+    } else {
+      typeNext();
+    }
+  }
+
+  btnLetterContinue.addEventListener('click', () => {
+    playEnding();
+  });
+
+  /* -----------------------------------------------------------------------
+     8. ENDING SEQUENCE
+     Night sky with stars, staggered reveal of "Forever.", the date, the
+     closing line, the infinity symbol, and finally the CSS/JS heart
+     explosion celebration.
+     ----------------------------------------------------------------------- */
+  const starsLayer     = document.getElementById('stars-layer');
+  const endingForever  = document.getElementById('ending-forever');
+  const endingDate     = document.getElementById('ending-date');
+  const endingLine     = document.getElementById('ending-line');
+  const endingInfinity = document.getElementById('ending-infinity');
+  const btnReplay      = document.getElementById('btn-replay');
+
+  let starsBuilt = false;
+  function buildStars(){
+    if (starsBuilt) return;
+    starsBuilt = true;
+    const count = window.innerWidth < 600 ? 90 : 160;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++){
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = rand(0, 100) + '%';
+      s.style.top = rand(0, 100) + '%';
+      s.style.animationDelay = rand(0, 3.4) + 's';
+      s.style.width = s.style.height = rand(1, 2.4) + 'px';
+      frag.appendChild(s);
+    }
+    starsLayer.appendChild(frag);
+  }
+
+  let endingPlayed = false;
+  function playEnding(){
+    stopDomHearts();
+    goToScreen('ending');
+    buildStars();
+
+    // reset reveal state in case this plays more than once
+    [endingForever, endingDate, endingLine, endingInfinity, btnReplay].forEach(el => el.classList.remove('reveal'));
+
+    window.setTimeout(() => endingForever.classList.add('reveal'), 400);
+    window.setTimeout(() => endingDate.classList.add('reveal'), 1000);
+    window.setTimeout(() => endingLine.classList.add('reveal'), 1700);
+    window.setTimeout(() => {
+      endingInfinity.classList.add('reveal');
+      launchFinaleExplosion();
+    }, 2500);
+    window.setTimeout(() => btnReplay.classList.add('reveal'), 3600);
+  }
+
+  function launchFinaleExplosion(){
+    const rect = endingInfinity.getBoundingClientRect();
+    const originX = rect.left + rect.width / 2;
+    const originY = rect.top + rect.height / 2;
+    triggerHeartExplosion(originX, originY);
+
+    // a couple of encore bursts for a fuller celebration
+    window.setTimeout(() => triggerHeartExplosion(originX - 60, originY - 40), 350);
+    window.setTimeout(() => triggerHeartExplosion(originX + 60, originY - 20), 650);
+  }
+
+  btnReplay.addEventListener('click', () => {
+    // gracefully restart the entire experience from the intro
+    goToScreen('intro');
+    envelopeOpened = false;
+    creditsFinished = false;
+    creditsTrack.classList.remove('rolling');
+    // force reflow so the roll animation can be restarted cleanly next time
+    void creditsTrack.offsetWidth;
+  });
+
+  /* -----------------------------------------------------------------------
+     Kick things off: nothing else needs to run automatically — the intro
+     screen is already active in the HTML, waiting for the first tap.
+     ----------------------------------------------------------------------- */
+
+})();
+</script>
+</body>
+</html>
